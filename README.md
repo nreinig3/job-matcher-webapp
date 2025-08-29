@@ -1,4 +1,4 @@
 # job-matcher-webapp
 Web application that ingests a user's job-related query and returns the most relevant job postings from its database
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ARXXxXQmmQw?si=aNrR6XY9x9CGvvZG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/ARXXxXQmmQw?si=aNrR6XY9x9CGvvZG" title="YouTube Video Player" frameborder="0" allowfullscreen></iframe>
