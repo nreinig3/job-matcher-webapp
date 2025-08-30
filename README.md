@@ -10,7 +10,7 @@
 Traditional job search websites rely on keyword filters, which generate overwhelming yet imprecise results, forcing candidates to sift through many irrelevant postings while missing ideal opportunities disguised by different job titles. This inefficiency also causes problems for employers, who must contend with a high volume of misaligned applicants.
 
 #### Solution: 
-Build a web app that leverages natural language processesing (NLP) algorithms to itelligently match job postings to user input, ensuring alignment between important characteristics of the candidate and the job posting. Additionally, display the returned results in a concept map-style visualization that allows users to see and interact with a large number of job postings at once. 
+A web app that leverages natural language processesing (NLP) algorithms to itelligently match job postings to user input, ensuring alignment between important characteristics of the candidate and the job posting. Additionally, display the returned results in a concept map-style visualization that allows users to see and interact with a large number of job postings at once. 
 
 #### My team's approach:
 *Data*:
