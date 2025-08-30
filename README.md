@@ -13,3 +13,4 @@ Traditional job search websites rely on keyword filters, which generate overwhel
 Leverage natural language processesing (NLP) algorithms to itelligently match job postings to user input, ensuring alignment between important characteristics of the candidate and the job posting. Additionally, display the returned results in a concept map-style visualization that allows users to see and interact with a large number of job postings at once. 
 
 #### My team's approach:
+*Data*:
