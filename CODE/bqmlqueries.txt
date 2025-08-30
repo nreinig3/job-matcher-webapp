@@ -1,0 +1,165 @@
+Query 1:
+create table if not exists `shankartest.jobdescriptions_ascii` as
+SELECT
+jobid,title,company,location,link,
+  REGEXP_REPLACE(description, r'([^\p{ASCII}]+)', '') AS description_ascii,
+  REGEXP_REPLACE(skills, r'([^\p{ASCII}]+)', '') AS skills_ascii,
+FROM `shankartest.jobdescriptions`
+
+Query 2:
+create table if not exists `shankartest.jobdescriptions_text` as
+SELECT
+jobid,title,company,location,link,
+  REGEXP_REPLACE(description_ascii, r'<[^>]*>', ' ') AS description_ascii_text,
+  REGEXP_REPLACE(skills_ascii, r'<[^>]*>', ' ') AS skills_ascii_text,
+FROM `shankartest.jobdescriptions_ascii`
+
+Query 3:
+create table if not exists `shankartest.jobdescriptions_text_nodeid` as
+select a.*, ROW_NUMBER() OVER (ORDER BY a.jobid) AS node_id from `shankartest.jobdescriptions_text`  a left outer join (
+select * from `shankartest.jobdescriptions_text`
+WHERE REGEXP_CONTAINS(description_ascii_text, r'^\s+$')
+) b on a.jobid = b.jobid and a.company = b.company and a.location = b.location
+where b.jobid is null
+
+
+Query 4:
+  CREATE OR REPLACE MODEL `shankartest.embedding_model`
+  REMOTE WITH CONNECTION `projects/cse6242-417300/locations/us-east4/connections/vertex_connections`
+  OPTIONS (ENDPOINT = 'textembedding-gecko@002');
+
+Query 5:
+CREATE OR REPLACE TABLE `shankartest.embeddings_full` AS
+  SELECT * FROM ML.GENERATE_EMBEDDING(
+    MODEL `shankartest.embedding_model`,
+    (
+      SELECT *, concat(description_ascii_text," ",skills_ascii_text) as content
+      FROM `shankartest.jobdescriptions_text_nodeid`
+    )
+  )
+  WHERE LENGTH(ml_generate_embedding_status) = 0;
+
+Query 6:
+    CREATE OR REPLACE VECTOR INDEX my_index
+    ON `shankartest.embeddings_full`(ml_generate_embedding_result)
+    OPTIONS(index_type = 'IVF',
+      distance_type = 'COSINE',
+      ivf_options = '{"num_lists":500}')
+
+
+Query 7:
+SELECT query.query, base.jobid, base.title, base.description_ascii_text, base.skills_ascii_text, doc.distance AS similarity_score
+FROM VECTOR_SEARCH(
+  TABLE `shankartest.embeddings_full`, 'ml_generate_embedding_result',
+  (
+  SELECT ml_generate_embedding_result, content AS query
+  FROM ML.GENERATE_EMBEDDING(
+  MODEL `shankartest.embedding_model`,
+  (SELECT 'SFD Professional Corporation' AS content))
+  ),
+  top_k => 5, options => '{"fraction_lists_to_search": 1}') as doc order by similarity_score DESC
+
+
+Queries for Large dataset:
+CREATE OR REPLACE MODEL `shankartest.embedding_model`
+  REMOTE WITH CONNECTION `projects/cse6242-417300/locations/us-east4/connections/vertex_connections`
+  OPTIONS (ENDPOINT = 'textembedding-gecko@002');
+
+create table IF NOT EXISTS `shankartest.trainlargedataset` as
+SELECT a.* FROM `shankartest.largedataset` a join `shankartest.trainindex` b
+on a.index = b.index
+
+create table IF NOT EXISTS `shankartest.testlargedataset` as
+SELECT a.* FROM `shankartest.largedataset` a join `shankartest.testindex` b
+on a.index = b.index
+
+CREATE OR REPLACE TABLE `shankartest.embeddings_largedataset_full` AS
+  SELECT * FROM ML.GENERATE_EMBEDDING(
+    MODEL `shankartest.embedding_model`,
+    (
+      SELECT *, tokenized_text as content
+      FROM `shankartest.trainlargedataset`
+    )
+  )
+  WHERE LENGTH(ml_generate_embedding_status) = 0;
+
+CREATE OR REPLACE VECTOR INDEX my_index
+    ON `shankartest.embeddings_largedataset_full`(ml_generate_embedding_result)
+    OPTIONS(index_type = 'IVF',
+      distance_type = 'COSINE',
+      ivf_options = '{"num_lists":500}')
+
+create table shankartest.test_largedataset_results as
+SELECT query.queryindex, base.index,doc.distance AS similarity_score
+FROM VECTOR_SEARCH(
+  TABLE `shankartest.embeddings_largedataset_full`, 'ml_generate_embedding_result',
+  (
+  SELECT ml_generate_embedding_result, content AS query , index as queryindex
+  FROM ML.GENERATE_EMBEDDING(
+  MODEL `shankartest.embedding_model`,
+  (SELECT *, tokenized_text as content
+      FROM `shankartest.testlargedataset`))
+  ),
+  top_k => 5, options => '{"fraction_lists_to_search": 1}') as doc
+
+
+ create table shankartest.test_largedataset_results_10000_15000 as
+ SELECT query.queryindex, base.index,doc.distance AS similarity_score
+ FROM VECTOR_SEARCH(
+   TABLE `shankartest.embeddings_largedataset_full`, 'ml_generate_embedding_result',
+   (
+   SELECT ml_generate_embedding_result, content AS query , index as queryindex
+   FROM ML.GENERATE_EMBEDDING(
+   MODEL `shankartest.embedding_model`,
+   (SELECT *, tokenized_text as content
+       FROM `shankartest.testlargedataset` where index > 57286 order by index limit 5000))
+   ),
+   top_k => 5, options => '{"fraction_lists_to_search": 1}') as doc
+
+create table shankartest.test_largedataset_results_15000_20000 as
+SELECT query.queryindex, base.index,doc.distance AS similarity_score
+FROM VECTOR_SEARCH(
+  TABLE `shankartest.embeddings_largedataset_full`, 'ml_generate_embedding_result',
+  (
+  SELECT ml_generate_embedding_result, content AS query , index as queryindex
+  FROM ML.GENERATE_EMBEDDING(
+  MODEL `shankartest.embedding_model`,
+  (SELECT *, tokenized_text as content
+      FROM `shankartest.testlargedataset` where index > 85855 order by index limit 5000))
+  ),
+  top_k => 5, options => '{"fraction_lists_to_search": 1}') as doc
+
+create table shankartest.test_largedataset_results as
+select queryindex,index,similarity_score from shankartest.test_largedataset_results_0_5000
+union all
+select queryindex,index,similarity_score from shankartest.test_largedataset_results_5000_10000
+union all
+select queryindex,index,similarity_score from shankartest.test_largedataset_results_10000_15000
+union all
+select queryindex,index,similarity_score from shankartest.test_largedataset_results_15000_20000
+union all
+select queryindex,index,similarity_score from shankartest.test_largedataset_results_20000
+
+create table shankartest.test_largedataset_results_matching_percentage as
+select a.queryindex,(count(*)/5)*100 as same_jobname_percentage
+from
+shankartest.test_largedataset_results a
+join `shankartest.trainlargedataset` b on a.index = b.index
+join `shankartest.testlargedataset` c on a.queryindex = c.index
+where b.job_name = c.job_name
+group by a.queryindex
+order by same_jobname_percentage desc
+
+SELECT same_jobname_percentage,count(*) as count_of_matches FROM `shankartest.test_largedataset_results_matching_percentage`
+group by same_jobname_percentage
+LIMIT 1000
+
+same_jobname_percentage	count_of_matches
+100.0	                5531
+80.0	                1573
+60.0	                1908
+40.0	                2622
+20.0	                4513
+
+5531*5 + 1573*4 + 1908*3 + 2622*2 + 4513 = 27655+6292+5724+5244+4513 = 49428
+Average = 49428 / (16147*5) = 0.6122251811

@@ -1,0 +1,1 @@
+Various doc2vec outputs will end of here. Do not delete or rename this folder.

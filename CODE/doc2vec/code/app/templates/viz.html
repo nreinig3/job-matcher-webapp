@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+
+<style>
+  .links line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+  }
+
+  .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
+
+ /* Allow for line breaks in node labels */
+  .tooltip {
+  white-space: pre-line;
+  }
+
+   #description-box {
+    position: absolute;
+    top: 800px;
+    right: 20px;
+    width: 300px;
+    height: 230px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+        }
+
+   #user-input-container {
+    width: 1200px;
+    height: 100px;
+
+}
+
+   input[type="text"] {
+      width: 300px;
+      height: 40px;
+      font-size: 16px;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+   /* Text box header */
+  .header {
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+  /* Text box content */
+  .content {
+      padding: 10px;
+  }
+
+</style>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Graph Viz</title>
+  <!--<script src="../d3_script.js"></script>-->
+
+</head>
+<body>
+  <h1>Job Matcher Web App</h1>
+  <form action="/" method="post">
+    <label for="user_input"><strong>Enter your text (skills, experience, etc):</strong></label><br>
+    <input type="text" id="user_input" name="user_input"><br>
+    <input type="submit" value="Submit">
+  </form>
+
+
+  <!-- Display user input here -->
+    <div id="user-input-container">
+    {% if user_input %}
+        <p>Your text: {{ user_input }}</p>
+    {% endif %}
+    </div>
+
+    {% if node_details %}
+        <p>Node details: {{ node_details }}</p>
+    {% endif %}
+
+
+   <!-- Container for the network graph -->
+    <svg width="1350" height="800"></svg>
+    <div id="job-description" style="position: absolute; top: 90px; right: 20px; width: 350px; height: 200px; border: 1px solid #ccc; overflow-y: auto;">
+    <div class="header"> <!-- Header Row -->
+        <strong>Job Posting Details</strong>
+    </div>
+    <div class="content"> <!-- Content Row -->
+    </div>
+  </div>
+
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+
+<script>
+  var svg = d3.select("svg");
+  var width = +svg.attr("width");
+  var height = +svg.attr("height");
+
+  // Setting D3 graph boundaries
+  var minX = 0;
+  var minY = 0;
+  var maxX = width;
+  var maxY = height;
+
+  // Processed data received from backend
+  var processed_data = JSON.parse('{{ processed_data | safe }}');
+
+  var dataArray = Object.keys(processed_data).map(function(key) {
+    return { key: key, value: processed_data[key] };
+  });
+  console.log(JSON.stringify(dataArray))
+
+  // Adding user input as a central node
+  var user_input = '{{ user_input }}';
+  var centralNode = user_input
+
+  // otherNodes = First level nodes
+  var otherNodes = Object.values(processed_data.node).map(function(node) {
+      return node;
+  });
+  console.log("Other nodes: " + otherNodes);
+
+  var nodes_connected = JSON.parse('{{ nodes_connected | safe }}').map(str => parseInt(str));
+  console.log(nodes_connected)
+
+  // Filtered_data = Second level nodes
+  var filtered_data = JSON.parse('{{ filtered_data | safe }}');
+  console.log(filtered_data)
+
+  // This function forces pre-processed nodes to always connect as 'target' (not 'source') so graph will build correctly
+  function switchSourceTarget(row, nodes_connected) {
+    if (nodes_connected.includes(row.target)) {
+        // Swap 'source' and 'target' values
+        var temp_target = row.target;
+        var temp_target_job_name = row.target_job_name;
+        var temp_target_description = row.target_description;
+
+        row.target = row.source;
+        row.target_job_name = row.source_job_name;
+        row.target_description = row.source_description
+
+        row.source = temp_target;
+        row.source_job_name = temp_target_job_name;
+        row.source_description = temp_target_description
+    }
+    return row;
+}
+
+  filtered_data.forEach(function(row) {
+      switchSourceTarget(row, nodes_connected); // Pass the nodes_connected array if needed
+  });
+  console.log(filtered_data);
+
+  // Check the data type of the first element in nodes_connected
+  const nodesDataType = typeof nodes_connected[0];
+
+  // Check the data type of the target values in filtered_data
+  const filteredDataTargetDataType = typeof filtered_data[0].target;
+  console.log(nodesDataType);
+  console.log(filteredDataTargetDataType);
+
+  // Link attributes for connections between central node and other nodes
+  var centralLinks = otherNodes.map(function(node) {
+    return { source: centralNode, target: node };
+  });
+  console.log(JSON.stringify(centralLinks));
+
+    // Add filtered data to centralLinks
+  filtered_data.forEach(function(data) {
+      centralLinks.push({ source: data.source, target: data.target });
+  });
+
+  // Re-formatting data so it's easier to use
+  var pd_reformatted = Object.keys(processed_data.node).map(function(key) {
+    var index = processed_data.node[key];
+    return {
+        name: index,
+        similarity_num: processed_data.similarity_num[key],
+        job_title: processed_data.job_title[key],
+        description: processed_data.description[key],
+        similarity_string: processed_data.similarity_string[key]
+    };
+});
+  console.log(JSON.stringify(pd_reformatted));
+
+// Creating main data object
+  var data = [{ name: centralNode, job_title: "Your input", level: 0}];
+  pd_reformatted.forEach(function(node) {
+    data.push({ name: node.name,
+      similarity_num: node.similarity_num,
+      job_title: node.job_title,
+      description: node.description,
+      level: 1,
+      similarity_string: node.similarity_string})
+  });
+  console.log(JSON.stringify(data));
+
+
+// Adding 2nd level nodes to data
+  filtered_data.forEach(function(node) {
+    data.push({name: node.target,
+      job_title: node.target_job_name,
+      description: node.target_description,
+      level: 2,
+      similarity_string: node.similarity_string})
+  });
+
+
+    // Generate the D3 force simulation
+    var simulation = d3
+        .forceSimulation(data)
+        .force(
+            "link",
+            d3.forceLink(centralLinks)
+                .id(function(d) {
+                    return d.name;
+                })
+                .distance(140)
+        )
+        .force("charge", d3.forceManyBody().strength(-400))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("collision", d3.forceCollide().radius(30))
+        .force("boundary", function() {
+        return function(alpha) {
+            data.forEach(function(d) {
+                d.x = Math.max(minX, Math.min(maxX, d.x));
+                d.y = Math.max(minY, Math.min(maxY, d.y));
+                });
+            };
+        })
+        .on("tick", ticked);
+
+    // Link attributes
+    var link = svg
+        .append("g")
+        .attr("class", "links")
+        .selectAll("line")
+        .data(centralLinks)
+        .enter()
+        .append("line")
+        .attr("stroke-width", 3);
+
+    // Define dragging functions
+    function dragbegan(d) {
+        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function dragged(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+    }
+
+    function dragterminated(d) {
+        if (!d3.event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
+
+    // Node attributes
+    var node = svg
+        .append("g")
+        .attr("class", "nodes")
+        .selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("r", 20) // Make central node larger
+        .attr("fill", function(d) {
+          if (d.level === 0) {
+              return "#fdc086";
+          } else if (d.level === 1) {
+              return "#beaed4";
+          } else if (d.level === 2) {
+              return "#7fc97f";
+          } else {
+              return "purple"; // Assign purple color for other levels
+          }
+        })
+        .call(
+            d3.drag()
+                .on("start", dragbegan)
+                .on("drag", dragged)
+                .on("end", dragterminated)
+        )
+        .on("click", d => {
+          console.log(JSON.stringify(d.job_title));
+          d3.select("#job-description .content")
+            .html(d.job_title + "<br>" + d.similarity_string + "<br>" + d.description);
+        });
+
+
+
+    // Node label attributes
+    var label = svg
+        .selectAll(".label")
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("class", "label")
+        .text(function(d) {
+            return d.job_title;
+        })
+        .attr("dx", 20)
+        .attr("font-weight", function(d) { return d.level === 0 ? 900 : 100; })
+        .attr("dy", 4);
+
+    // Tick function
+    function ticked() {
+        link
+            .attr("x1", function(d) {
+                return d.source.x;
+            })
+            .attr("y1", function(d) {
+                return d.source.y;
+            })
+            .attr("x2", function(d) {
+                return d.target.x;
+            })
+            .attr("y2", function(d) {
+                return d.target.y;
+            });
+
+        node
+            .attr("cx", function(d) {
+                return d.x = Math.max(minX+20, Math.min(maxX-20, d.x));
+            })
+            .attr("cy", function(d) {
+                return d.y = Math.max(minY+20, Math.min(maxY-20, d.y));
+            });
+
+        label
+            .attr("x", function(d) {
+                return d.x;
+            })
+            .attr("y", function(d) {
+                return d.y;
+            });
+    }
+
+</script>
+
+</body>
+</html>
