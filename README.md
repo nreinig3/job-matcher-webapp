@@ -16,6 +16,10 @@ A web app that leverages natural language processesing (NLP) algorithms to itell
 
 *Data*  
 
-For the database of job postings, job titles and raw job description text were extracted from two sources: Techmap.io and a scraped dataset hosted on Google Drive. This data was converted into a word-tokenized format suitable for downstream NLP model training. 
+To create a database of job postings, job titles and raw job description text were extracted from two sources: Techmap.io and a scraped dataset hosted on Google Drive. This data was converted into a word-tokenized format suitable for downstream NLP model training, with stop words, non-English sentences, and single-use words removed. 
+
+*NLP Models*  
+
+Our two goals were to accurately match user input to job descriptions in the database, as well as determining the similarity between all the job descriptions.  
 
 
