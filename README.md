@@ -14,5 +14,4 @@ A web app that leverages natural language processesing (NLP) algorithms to itell
 
 #### My team's approach:  
 
-*Data*:
-- 
+*Data* 
