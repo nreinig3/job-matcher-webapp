@@ -15,3 +15,6 @@ A web app that leverages natural language processesing (NLP) algorithms to itell
 #### My team's approach:  
 
 *Data* 
+For the database of job postings, job titles and raw job description text were extracted from two sources: Techmap.io and a scraped dataset hosted on Google Drive. This data was converted into a word-tokenized format suitable for downstream NLP model training. 
+
+
