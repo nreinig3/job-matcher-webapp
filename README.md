@@ -20,6 +20,6 @@ To create a database of job postings, job titles and raw job description text we
 
 *NLP Models*  
 
-Our two goals were to accurately match user input to job descriptions in the database, as well as determining the similarity between all the job descriptions.  
+The project's two goals were to accurately match user input to job descriptions in the database in real-time (inference), and to determine the similarity between all job descriptions ahead of time. To accomplish this, three NLP models were tested: Doc2Vec, TF-IDF, and Big-Query ML (BQML). These models were used to numerically vectorize the job descriptions, and a cosine similarity function was employed to score similarity among the job descriptions.
 
 
