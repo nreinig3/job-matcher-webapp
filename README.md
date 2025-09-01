@@ -31,8 +31,9 @@ Users' textual input is captured from the text box in the web app, and sent to a
 
 
 #### Results:
-<img width="1078" height="753" alt="image" src="https://github.com/user-attachments/assets/990e0856-2d2f-48e1-8787-59c0aec38756" />
-
+<img src="https://github.com/user-attachments/assets/990e0856-2d2f-48e1-8787-59c0aec38756" 
+     alt="Description of image" 
+     style="width: 60%; height: auto;">
 
 
 
