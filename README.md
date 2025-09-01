@@ -53,7 +53,7 @@ Although the web app was built on the Doc2Vec model only, two other ML models we
 It's surprisingly the the Doc2Vec model performed worse than the more simple TF-IDF, which could be a real result or it may suggest that this test wasn't a good way to evaluate model performance. But assuming the test is a good proxy for the ability of the model to understand the meaning and context of the job descriptions, it's likely that the quality of the "most similar" job selections would improve if we implemented the BQML textembedding-gecko@002 model.
  
 #### Future Work:
-If I get a chance to work on this further, I'd like to do the following:
+This project was a great opportunity to familiarize myself with machine learning and natural language processing algorithms, and to build an end-to-end web application prototype. If properly executed, I think this application could solve a important problem with the job market and find wide usage among job searchers. In the future, I'd like to develop my own version of this project and develop the following aspects:
 * Use user A/B testing to determine the optimal visualization style and level of interactivity
 * More in-depth comparisons of the "most similar" jobs
 * Try implementing BQML's textembedding-gecko@002 model in the web app, since it appears more accurate than Doc2Vec
