@@ -37,13 +37,20 @@ Users' textual input is captured from the text box in the web app, and sent to a
 
  *Fig. 1: An example of the data visualization generated after a user submits the text input shown below the text box*
 
-In evaluating the Web App, the performance of ML models and the usability of the vizualization are inherently subjective, and unfortunately the time frame of the course did not allow for more in depth user testing. But one method we used to evaulate the performance of the models was to input random job descriptions from the internet as text input to the web app, and then to assess the reasonableness of the most similar jobs returned by our ML model. 
+In evaluating the Web App, the performance of ML models and the usability of the vizualization are inherently subjective, and unfortunately the time frame of the course did not allow for in-depth user testing. But one method we used to evaulate the performance of the models was to input random job descriptions from the internet as text input to the web app, and then to assess the reasonableness of the most similar jobs returned by our ML model. 
 
 <img width="850" height="241" alt="image" src="https://github.com/user-attachments/assets/b0580944-2908-498c-9d58-dfd0fc1c1507"
     alt="Table showing results of random inputs based on job descriptions found on the internet"
     style="width: 70%; height: auto;">  
 
-*Table 1: Results of visualization assessment using portions of job descriptions found on the internet as text input*
+*Table 1: Results of visualization assessment using portions of job descriptions found on the internet as text input*  
+
+Although the web app was built on the Doc2Vec model only, two other ML models were also trained on our job posting dataset. Those were TF-IDF (as a proxy for keyword tgraditional matching) and the [] model on Google Cloud's BQML platform. For this evaluation, job postings were randomly fed into the models and the model's predicted job title was recorded. Unfortunately, the Doc2Vec model had the lowest performance of the three models:
+* Doc2Vec : 10% correct
+* TF-IDF : 42% correct
+* BQML (textembedding-gecko@002) : 61% correct
+
+
 
  
 
