@@ -41,7 +41,7 @@ In evaluating the Web App, the performance of ML models and the usability of the
 
 <img width="850" height="241" alt="image" src="https://github.com/user-attachments/assets/b0580944-2908-498c-9d58-dfd0fc1c1507"
     alt="Table showing results of random inputs based on job descriptions found on the internet"
-    style="width: 60%; height: auto;"> 
+    style="width: 70%; height: auto;"> 
 
  
 
