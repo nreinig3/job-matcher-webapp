@@ -1,4 +1,4 @@
-# job-matcher-webapp
+# Job Matcher Web Application
 
 <a href="https://youtu.be/ARXXxXQmmQw?si=bmVXOmilV8PvpWmI">
     <img src="/media/job-matcher-thumbnail.png" alt="Thumbnail for Job Matcher Web App demo video" style="width: 60%; height: auto;">
