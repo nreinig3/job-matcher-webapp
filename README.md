@@ -60,4 +60,4 @@ Ways I'd like to improve this project in the future:
 * Develop a feature that tells users *why* a job posting was deemed similar to their input (i.e. common words or concepts)
 
 #### Interactive Web App:
-I've also created a page to show an interactive example of the D3.js visualization here. Thanks for reading! 
+I've also created a page to show an interactive example of the D3.js visualization here based on a sample input. Thanks for reading! 
