@@ -16,7 +16,7 @@ A web app that leverages natural language processesing (NLP) algorithms to itell
 
 *Data*  
 
-To create a database of job postings, job titles and raw job description text were extracted from two sources: Techmap.io and a scraped dataset hosted on Google Drive. This data was converted into a word-tokenized format suitable for downstream NLP model training, with stop words, non-English sentences, and single-use words removed. 
+To create a database of job postings, job titles and raw job description text were extracted from two sources: a publicly available dataset from Techmap.io, and a public scraped dataset hosted on Google Drive. This data was converted into a word-tokenized format suitable for downstream NLP model training, with stop words, non-English sentences, and single-use words removed. 
 
 *NLP Models*  
 
@@ -27,9 +27,11 @@ The visualization was built with Javascript, using the D3.js library. It was set
 
 
 *Web App Architecture*  
+Users' textual input is captured from the text box in the web app, and sent to a Flask backend. From Flask, the input is processed through the machine learning model (Doc2Vec), and the most similar job postings are determined. Next, D3.js is updated, after which the visualization is refreshed with the current selections. 
 
 
 #### Results:
+<img width="1078" height="753" alt="image" src="https://github.com/user-attachments/assets/990e0856-2d2f-48e1-8787-59c0aec38756" />
 
 
 
