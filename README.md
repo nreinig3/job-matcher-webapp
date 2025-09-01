@@ -49,8 +49,7 @@ Although the web app was built on the Doc2Vec model only, two other ML models we
 * Doc2Vec : 10% correct
 * TF-IDF : 42% correct
 * BQML (textembedding-gecko@002) : 61% correct
-
-
-
+  
+It's surprisingly the the Doc2Vec model performed worse than the more simple TF-IDF, which could be a real result or it may suggest that this test wasn't a good way to evaluate model performance. But assuming the test is a good proxy for the ability of the model to understand the meaning and context of the job descriptions, it's likely that the quality of the "most similar" job selections would improve if we implemented the BQML textembedding-gecko@002 model.
  
 
