@@ -37,5 +37,5 @@ Users' textual input is captured from the text box in the web app, and sent to a
 
  *Fig. 1: An example of the data visualization generated after a user submits the text input shown below the text box*
 
- 
+ In evaluating the Web App, the performance of ML models and the usability of the vizualization are inherently subjective, and unfortunately the time frame of the course did not allow for more in depth user testing. But one method we used to evaulate the performance of the models was to input random job descriptions from the internet as text input to the web app, and then to assess the reasonableness of the most similar jobs returned by our ML model. 
 
