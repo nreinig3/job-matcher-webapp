@@ -4,7 +4,7 @@
     <img src="/media/job-matcher-thumbnail.png" alt="Thumbnail for Job Matcher Web App demo video" style="width: 60%; height: auto;">
 </a>
 
-*Deomonstration of the Job Matcher web application, showing the vizualization resulting from a user's input*
+*Fig. 1: Deomonstration of the Job Matcher web application, showing the vizualization resulting from a user's input*
 
 #### Problem:  
 Traditional job search websites rely on keyword filters, which generate overwhelming yet imprecise results, forcing candidates to sift through many irrelevant postings while missing ideal opportunities disguised by different job titles. This inefficiency also causes problems for employers, who must contend with a high volume of misaligned applicants.
@@ -35,7 +35,7 @@ Users' textual input is captured from the text box in the web app, and sent to a
      alt="Description of image" 
      style="width: 60%; height: auto;">  
 
- *An example of the data visualization generated after a user submits the text input shown below the text box*
+ *Fig. 2: An example of the data visualization generated after a user submits the text input shown below the text box*
 
  
 
