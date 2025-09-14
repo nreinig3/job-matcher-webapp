@@ -20,7 +20,7 @@ To create a database of job postings, job titles and raw job description text we
 
 *NLP Models*  
 
-The project's two goals were to accurately match user input to job descriptions in the database in real-time (inference), and to determine the similarity between all job descriptions ahead of time. To accomplish this, three NLP models were tested: Doc2Vec, TF-IDF, and Big-Query ML (BQML). These models were used to numerically vectorize the job descriptions and user input text, and a cosine similarity function was employed to score relatedness between every pair of vectorized outputs.
+The project's two goals were to accurately match user input to job descriptions in the database in real-time (inference), and to determine the similarity between all job descriptions ahead of time. To accomplish this, three NLP models were tested: Doc2Vec, TF-IDF, and BigQuery ML (BQML). These models were used to numerically vectorize the job descriptions and user input text, and a cosine similarity function was employed to score relatedness between every pair of vectorized outputs.
 
 *Interactive Vizualization*  
 The visualization was built with Javascript, using the D3.js library. It was set up as a force-directed network graph, with the five job descriptions most closely related to the user input visualized as nodes connected to a central node representing the user input. When a user clicks on the 1st degree nodes, they see the job title, a snippet of the job description, and a similarity score (our cosine similarity function, expressed as a percentage). In order to supply the user with more information, but without significantly increasing inference time, pairwise similarity scores between the job postings (which had already been calculated) were used to add another set of job postings to the visualization. These 2nd degree nodes represent the jobs most closely related to each of the 1st degree nodes, and that were above a particular similarity threshold we chose. 
@@ -45,10 +45,10 @@ In evaluating the Web App, the performance of ML models and the usability of the
 
 *Table 1: Results of visualization assessment using portions of job descriptions found on the internet as text input*  
 
-Although the web app was built on the Doc2Vec model only, two other ML models were also trained on our job posting dataset. Those were TF-IDF (as a proxy for keyword tgraditional matching) and the [] model on Google Cloud's BQML platform. For this evaluation, job postings were randomly fed into the models and the model's predicted job title was recorded. Unfortunately, the Doc2Vec model had the lowest performance of the three models:
+Although the web app was built on the Doc2Vec model only, two other ML models were also trained on our job posting dataset. Those were TF-IDF (as a proxy for keyword tgraditional matching) and the textembedding-gecko@002 model on Google's BQML platform. For this evaluation, job postings were randomly fed into the models and the model's predicted job title was recorded. Unfortunately, the Doc2Vec model had the lowest performance of the three models:
 * Doc2Vec : 10% correct
 * TF-IDF : 42% correct
-* BQML (textembedding-gecko@002) : 61% correct
+* BQML textembedding-gecko@002 : 61% correct
   
 It's surprisingly the the Doc2Vec model performed worse than the more simple TF-IDF, which could be a real result or it may suggest that this test wasn't a good way to evaluate model performance. But assuming the test is a good proxy for the ability of the model to understand the meaning and context of the job descriptions, it's likely that the quality of the "most similar" job selections would improve if we implemented the BQML textembedding-gecko@002 model.
  
@@ -58,6 +58,3 @@ This project was a great opportunity to familiarize myself with machine learning
 * More in-depth comparisons of the "most similar" jobs
 * Try implementing BQML's textembedding-gecko@002 model in the web app, since it appears more accurate than Doc2Vec
 * Develop a feature that tells users *why* a job posting was deemed similar to their input (i.e. common words or concepts)
-
-#### Interactive Web App:
-I've also created a page to show an interactive example of the D3.js visualization here based on a sample input. Thanks for reading! 
