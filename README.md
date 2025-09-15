@@ -40,7 +40,7 @@ When a user clicks on the 1st degree nodes, they see the job title, a snippet of
 
  *Fig. 1: An example of the data visualization generated after a user submits the text input shown below the text box*
 
-In evaluating the Web App, the performance of ML models and the usability of the vizualization are inherently subjective, and unfortunately the time frame of the course did not allow for in-depth user testing. But one method we used to evaulate the performance of the models was to input random job descriptions from the internet as text input to the web app, and then to assess the reasonableness of the most similar jobs returned by our ML model. 
+In evaluating the Web App, the performance of ML models and the usability of the vizualization are inherently subjective, and unfortunately the time frame of the course did not allow for in-depth user testing. But one method we used to evaulate the performance of the models was to input random job descriptions from the internet as text input to the web app, and then to assess the reasonableness of the most similar jobs returned by our ML model. The model seemed to perform well; the results are displayed in Table 1:
 
 <img width="850" height="241" alt="image" src="https://github.com/user-attachments/assets/b0580944-2908-498c-9d58-dfd0fc1c1507"
     alt="Table showing results of random inputs based on job descriptions found on the internet"
