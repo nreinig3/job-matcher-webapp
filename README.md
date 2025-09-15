@@ -48,7 +48,7 @@ In evaluating the Web App, the performance of ML models and the usability of the
 
 *Table 1: Results of visualization assessment using portions of job descriptions found on the internet as text input*  
 
-Although the web app was built on the Doc2Vec model only, two other ML models were also trained on our job posting dataset. Those were TF-IDF (as a proxy for keyword tgraditional matching) and the textembedding-gecko@002 model on Google's BQML platform. For this evaluation, job postings were randomly fed into the models and the model's predicted job title was recorded. Unfortunately, the Doc2Vec model had the lowest performance of the three models:
+Although the web app was built on the Doc2Vec model only, two other ML models were also trained on our job posting dataset. Those were TF-IDF (as a proxy for keyword tgraditional matching) and the BigQuery ML textembedding-gecko@002 model. For this evaluation, job postings were randomly fed into the models and the model's predicted job title was recorded. Unfortunately, the Doc2Vec model had the lowest performance of the three models:
 * Doc2Vec : 10% correct
 * TF-IDF : 42% correct
 * BQML textembedding-gecko@002 : 61% correct
