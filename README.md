@@ -53,11 +53,11 @@ Although the web app was built on the Doc2Vec model only, two other ML models we
 * TF-IDF : 42% correct
 * BQML textembedding-gecko@002 : 61% correct
   
-It's surprisingly the the Doc2Vec model performed worse than the more simple TF-IDF, which could be a real result or it may suggest that this test wasn't a good way to evaluate model performance. But assuming the test is a good proxy for the ability of the model to understand the meaning and context of the job descriptions, it's likely that the quality of the "most similar" job selections would improve if we implemented the BQML textembedding-gecko@002 model.
+It's surprisingly the the Doc2Vec model performed worse than the more simple TF-IDF, which could mean that the Doc2Vec model is truly worse, or perhaps this particular test wasn't a good way to evaluate model performance. Assuming the test is accurate, it's likely that the quality of the "most similar" job selections would improve if we implemented the BQML textembedding-gecko@002 model.
  
 ### Future Work:
-This project was a great opportunity to familiarize myself with machine learning and natural language processing algorithms, and to build an end-to-end web application prototype. If properly executed, I think this application could solve a important problem with the job market and find wide usage among job searchers. In the future, I'd like to develop my own individual version of this project and improve its performance in the following ways:
+This project served as a great opportunity to familiarize myself with machine learning and natural language processing algorithms, and to build an end-to-end web application prototype. By addressing a key pain point in the job search process, I believe this tool could find wide usage among job searchers. In the future, I'd like to develop my own version of this project and improve its performance in the following ways:
 * Use user A/B testing to determine the optimal visualization style and level of interactivity
 * More in-depth comparisons of the "most similar" jobs
 * Try implementing BQML's textembedding-gecko@002 model in the web app, since it appears more accurate than Doc2Vec
-* Develop a feature that tells users *why* a job posting was deemed similar to their input (i.e. common words or concepts)
+* Develop a feature that tells users *why* a job posting was deemed similar to their input (i.e. common words or concepts), possibly by leveraging an LLM
