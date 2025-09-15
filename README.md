@@ -6,15 +6,15 @@
 
 *Deomonstration of the Job Matcher web application, showing the vizualization resulting from a user's input (links to YouTube)*
 
-### **Problem**
+### **Problem:**
 
 Traditional job search websites rely on keyword filters, which generate overwhelming yet imprecise results, forcing candidates to sift through many irrelevant postings while missing ideal opportunities disguised by different job titles. This inefficiency also causes problems for employers, who must contend with a high volume of misaligned applicants.
 
-### **Solution**
+### **Solution:**
 
 A web app that leverages natural language processing (NLP) algorithms to intelligently match job postings to user input, ensuring alignment between important characteristics of the candidate and the job posting. Results are returned in a concept map-style visualization that allows users to see and interact with a large number of job postings at once.
 
-### **My Team's Approach**
+### **My Team's Approach:**
 
 #### **Data**
 To create a database of job postings, job titles and raw job description text were extracted from two sources: a publicly available dataset from Techmap.io, and a public scraped dataset hosted on Google Drive. This data was converted into a word-tokenized format suitable for downstream NLP model training, with stop words, non-English sentences, and single-use words removed.
