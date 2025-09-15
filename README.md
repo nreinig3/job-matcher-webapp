@@ -25,7 +25,7 @@ The project's two goals were to accurately match user input to job descriptions 
 #### **Interactive Visualization**
 The visualization was built with Javascript, using the `D3.js` library. It was set up as a force-directed network graph, with the five job descriptions most closely related to the user input visualized as nodes connected to a central node representing the user input.
 
-When a user clicks on the 1st degree nodes, they see the job title, a snippet of the job description, and a similarity score (our cosine similarity function, expressed as a percentage). In order to supply the user with more information, but without significantly increasing inference time, pairwise similarity scores between the job postings (which had already been calculated) were used to add another set of job postings to the visualization. These 2nd degree nodes represent the jobs most closely related to each of the 1st degree nodes, and that were above a particular similarity threshold we chose.
+When a user clicks on the 1st degree nodes, they see the job title, a snippet of the job description, and a similarity score based on the cosine similarity function. In order to supply the user with more information, but without significantly increasing inference time, pairwise similarity scores between the job postings (which had already been calculated) were used to add another set of job postings to the visualization. These 2nd degree nodes represent the jobs most closely related to each of the 1st degree nodes, and that were above a particular similarity threshold we chose.
 
 #### **Web App Architecture**
 1.  Users' textual input is captured from the text box in the web app, and sent to a Flask backend.
