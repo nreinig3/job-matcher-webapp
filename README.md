@@ -58,6 +58,6 @@ It's surprisingly the the Doc2Vec model performed worse than the more simple TF-
 ### Future Work:
 This project served as a great opportunity to familiarize myself with machine learning and natural language processing algorithms, and to build an end-to-end web application prototype. By addressing a key pain point in the job search process, I believe this tool could find wide usage among job searchers. In the future, I'd like to further develop the project in the following ways:
 * Use user A/B testing to determine the optimal visualization style and level of interactivity
-* More in-depth comparisons of the "most similar" jobs
+* Develop a quantitative method for evaluating the similarity of jobs displayed in the tool (to determine how well the model is performing)
 * Try implementing BQML's textembedding-gecko@002 model in the web app, since it appears more accurate than Doc2Vec
 * Develop a feature that tells users *why* a job posting was deemed similar to their input (i.e. common words or concepts), possibly by leveraging an LLM
