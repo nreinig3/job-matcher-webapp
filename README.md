@@ -1,10 +1,3 @@
-# Job Matcher Web Application
-
-<a href="https://youtu.be/-5Ot0S5_ch4">
-    <img src="/media/job-matcher-thumbnail.png" alt="Thumbnail for Job Matcher Web App demo video" style="width: 60%; height: auto;">
-</a>
-
-*Deomonstration of the Job Matcher web application, showing the vizualization resulting from a user's input (links to YouTube)*
 
 ### **Problem:**
 
